@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Title</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <div id="journal-editor">
+            <h2>Reading Journal</h2>
+            <form class="add-entry">
+                <label for="title" id="title-label">
+                    Title: 
+                    <input id="title" type="text" required placeholder="Flatland">
+                    <br>
+                </label>
+                <label for="author" id="author-label">
+                    Author: 
+                    <input id="author" type="text" required placeholder="Edwin Abbott Abbott">
+                    <br>
+                </label>
+                <label for="genre" id="genre-label">
+                    Genre: 
+                    <select id="genre">
+                        <option value>(select one)</option>
+                        <option value="sci-fi">Sci-Fi</option>
+                        <option value="mystery">Mystery</option>
+                        <option value="horror">Horror</option>
+                        <option value="fantasy">Fantasy</option>
+                        <option value="memoir">Memoir</option>
+                    </select>
+                    <br>
+                </label>
+                <input type="submit" value="+ Add Entry">
+            </form>
+        </div>
+        <ul class="entries"></ul>
+        <script>
+            const addEntry = document.querySelector('.add-entry');
+            const entryList = document.querySelector('.entries');
+            const entries = JSON.parse(localStorage.getItem('entries'))
+            
+            function addEntry(e) {
+                e.preventDefault();
+                const title = (this.querySelector'[id=title]')).value;
+                const author = (this.querySelector'[id=author]')).value;
+                const genre = (this.querySelector'[id=genre]')).value;
+                const entry = {
+                    title,
+                    author,
+                    genre,
+                };
+                
+                entries.push(entry);
+                populateList(entries, entryList);
+                localStorage.set
+            }
+            
+        </script>
+    </body>
+</html>
