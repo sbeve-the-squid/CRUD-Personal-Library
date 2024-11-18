@@ -2,8 +2,11 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <title>Title</title>
+        <title>Reading Journal</title>
         <link rel="stylesheet" href="styles.css">
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Oldenburg&family=Sixtyfour+Convergence&display=swap');
+        </style>
     </head>
     <body>
         <div id="journal-editor">
@@ -31,31 +34,93 @@
                     </select>
                     <br>
                 </label>
-                <input type="submit" value="+ Add Entry">
+                <input id="mainbutton" type="submit" value="+ Add Entry">
             </form>
         </div>
-        <ul class="entries"></ul>
+            <h3>Your Entries</h3>
+            <ul class="entries"></ul>        
+        <div class="entries-container">
+    </div>
         <script>
-            const addEntry = document.querySelector('.add-entry');
+            const addEntries = document.querySelector('.add-entry');
             const entryList = document.querySelector('.entries');
-            const entries = JSON.parse(localStorage.getItem('entries'))
-            
+            const mainButton = addEntries.querySelector('#mainbutton');
+            let entries = JSON.parse(localStorage.getItem('entries')) || [];
+            let editIndex = null; 
+
             function addEntry(e) {
                 e.preventDefault();
-                const title = (this.querySelector'[id=title]')).value;
-                const author = (this.querySelector'[id=author]')).value;
-                const genre = (this.querySelector'[id=genre]')).value;
-                const entry = {
-                    title,
-                    author,
-                    genre,
-                };
-                
-                entries.push(entry);
-                populateList(entries, entryList);
-                localStorage.set
+
+                const title = this.querySelector('#title').value;
+                const author = this.querySelector('#author').value;
+                const genre = this.querySelector('#genre').value;
+                const date = new Date().toLocaleDateString(); 
+
+                const entry = { title, author, genre, date };
+
+                if (editIndex !== null) {
+                    entries[editIndex] = entry;
+                    editIndex = null;
+                    mainButton.value = "+ Add Entry"; 
+                } else {
+                    entries.unshift(entry);
+                }
+
+                localStorage.setItem('entries', JSON.stringify(entries));
+                populateList();
+                this.reset(); 
             }
-            
+
+            function populateList() {
+                entryList.innerHTML = entries
+                    .map(
+                        (entry, i) => `
+                    <li class="entry-card" data-index="${i}">
+                        <h4>${entry.title}</h4>
+                        <p class="date">${entry.date}</p>
+                        <div class="entry-actions">
+                            <button class="details-btn" onclick="toggleDetails(${i})">Details</button>
+                            <button class="edit-btn" onclick="editEntry(${i})">Edit</button>
+                            <button class="delete-btn" onclick="deleteEntry(${i})">Delete</button>
+                        </div>
+                        <div class="details" id="details-${i}" style="display: none;">
+                            <p>Author: ${entry.author}</p>
+                            <p>Genre: ${entry.genre}</p>
+                        </div>
+                    </li>
+                `
+                    )
+                    .join('');
+            }
+
+            function toggleDetails(index) {
+                const details = document.getElementById(`details-${index}`);
+                details.style.display = details.style.display === 'none' ? 'block' : 'none';
+            }
+
+            function editEntry(index) {
+                mainButton.value = "Update Entry"; 
+                const entry = entries[index];
+                const form = document.querySelector('.add-entry');
+
+                form.querySelector('#title').value = entry.title;
+                form.querySelector('#author').value = entry.author;
+                form.querySelector('#genre').value = entry.genre;
+
+                editIndex = index; 
+            }
+
+            function deleteEntry(index) {
+                if (confirm('Are you sure you want to delete this entry?')) {
+                    entries.splice(index, 1); // Remove the entry
+                    localStorage.setItem('entries', JSON.stringify(entries));
+                    populateList();
+                }
+            }
+
+            addEntries.addEventListener('submit', addEntry);
+            populateList();
+
         </script>
     </body>
 </html>

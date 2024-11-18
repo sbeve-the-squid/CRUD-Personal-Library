@@ -1,9 +1,90 @@
-*{
+* {
+    box-sizing: border-box;
     text-align: center;
 }
 
-#journal{
-    padding: 10px;
-    border-radius: 20px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+body {
+    font-family: Oldenburg, sans-serif;
+    margin: 0;
+    padding: 2%;
+    background-color: #f9f9f9;
+}
+
+#journal-editor {
+    margin-bottom: 20px;
+}
+
+#mainbutton{
+    padding: 0 30px 0 30px;
+    align-self: center; 
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+ul.entries {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 600px;
+}
+
+.entry-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    text-align: left;
+}
+
+.entry-card h4 {
+    margin: 0 0 0.5rem;
+}
+
+.entry-card .date {
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.entry-actions {
+    margin-top: 0.5rem;
+}
+
+.entry-actions button {
+    margin: 0 0.3rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.details-btn{
+    background-color: #6ab0e1;
+}
+
+.edit-btn{
+    background-color: #6ac161;
+}
+
+.delete-btn{
+    background-color: #c1616f;
+}
+
+.entry-actions button:hover {
+    background-color: #f074f4;
+    transform: scale(1.1);
+}
+
+.details {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    border-top: 1px solid #ddd;
+    padding-top: 0.5rem;
+    text-align: left;
 }
